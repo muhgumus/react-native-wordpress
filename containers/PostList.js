@@ -58,7 +58,7 @@ class Page extends Component {
             usersInput: '',
             events: [],
             card_type: "full",
-            searchText:this.props.navigation.state.params ? this.props.navigation.state.params.strings.searchText : props.strings.searchText
+            searchText:this.props.navigation.state.params && this.props.navigation.state.params.strings ? this.props.navigation.state.params.strings.searchText : props.strings.searchText
         }
         this._refreshEvents = this._refreshEvents.bind(this)
         this._handleScroll = this._handleScroll.bind(this)

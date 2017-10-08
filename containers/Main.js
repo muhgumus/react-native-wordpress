@@ -52,13 +52,19 @@ class Main extends Component {
   }
 
   componentDidMount() {
+    this.refreshWP();
+  }
+
+  refreshWP = ()=>{
     this.setState({ loading: true });
     WP.Categories().then((results) => {
       if (results.code && results.code == "rest_no_route") {
         this.setState({ error: true, noExternal:true, loading: false });
       }
       else {
-        this.props.screenProps.onLoad(true);
+        if(this.props.screenProps.onLoad)
+          this.props.screenProps.onLoad(true);
+          
         this.setState({ categories: results, loading: false });
       }
     }).catch((err) => {
@@ -83,8 +89,9 @@ class Main extends Component {
   render() {
     { this.drawer && this.props.customEvent.closeDrawer ? this.drawer.closeDrawer() : null }  // Drawer kapatma mesajı geldiyse kapat
     return (
-      this.state.error ? <MXwarning color={this.props.screenProps.color}
-        refreshPage={() => { this.props.screenProps.onLoad("warning"); }}
+      this.state.error ? 
+      <MXwarning color={this.props.screenProps.color}
+        refreshPage={() => { this.props.screenProps.onLoad ? this.props.screenProps.onLoad("warning") : this.refreshWP() }}
         title={this.state.strings.warningText} 
         buttonText={this.state.strings.tryanother}
         description={this.state.noExternal ? this.state.strings.noexternalUseText : this.state.strings.nowordpressText} /> :
