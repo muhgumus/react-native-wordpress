@@ -48,11 +48,12 @@ Advanced
 ## Showcase 
 Who using this component ? 
 
-#Explorer for Wordpress 
+Explorer for Wordpress 
 ![alt text](https://github.com/muhgumus/react-native-wordpress/blob/master/explorer_icon.png?raw=true)
 
     ANDROID 
-    https://play.google.com/store/apps/details?id=com.mx.explorer
+![alt ANDROID](https://play.google.com/store/apps/details?id=com.mx.explorer)
+   
 
     IOS 
     Coming soon
