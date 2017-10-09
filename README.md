@@ -3,6 +3,15 @@ React Native Native App Component for Wordpress sites
 
 Wordpress Native App for IOS and ANDROID  
 
+## Showcase 
+Explorer for Wordpress  ![alt text](https://github.com/muhgumus/react-native-wordpress/blob/master/explorer_icon.png?raw=true)
+
+    ANDROID 
+    https://play.google.com/store/apps/details?id=com.mx.explorer
+
+    IOS 
+    Coming soon
+
 ## Installation
 Step 1 
 
@@ -24,7 +33,7 @@ Basic
 
 Advanced
 
-    let strings_en={
+    let strings={
         categories:"Categories", 
         pages:"Pages", 
         searchText:"Write anything for search", 
