@@ -1,6 +1,7 @@
 const React = require('react');
 import {connect} from "react-redux"
 const ReactNative = require('react-native');
+import PropTypes from 'prop-types';
 const {
   StyleSheet,
   Text,
@@ -15,42 +16,40 @@ import Color from "../utils/colors"
 
 const Button = Platform.OS == 'android' ? TouchableOpacity : TouchableOpacity;
 
-const IconTabBar = React.createClass({
-  propTypes: {
-    goToPage: React.PropTypes.func,
-    activeTab: React.PropTypes.number,
-    tabs: React.PropTypes.array,
-    backgroundColor: React.PropTypes.string,
-    activeTextColor: React.PropTypes.string,
-    inactiveTextColor: React.PropTypes.string,
+class IconTabBar extends React.Component {
+  static propTypes = {
+    goToPage: PropTypes.func,
+    activeTab: PropTypes.number,
+    tabs: PropTypes.array,
+    backgroundColor: PropTypes.string,
+    activeTextColor: PropTypes.string,
+    inactiveTextColor: PropTypes.string,
     textStyle: Text.propTypes.style,
     tabStyle: View.propTypes.style,
-    renderTab: React.PropTypes.func,
+    renderTab: PropTypes.func,
     underlineStyle: View.propTypes.style,
-  },
+  };
 
-  getDefaultProps() {
-    return {
-      activeTextColor: Color.BLUE[700],
-      inactiveTextColor: Color.GREY[700],
-      activeIconSize: 30,
-      inactiveIconSize: 28,
-      activeTextSize: 14,
-      inactiveTextSize: 12,
-      backgroundColor: null,
-    };
-  },
+  static defaultProps = {
+    activeTextColor: Color.BLUE[700],
+    inactiveTextColor: Color.GREY[700],
+    activeIconSize: 30,
+    inactiveIconSize: 28,
+    activeTextSize: 14,
+    inactiveTextSize: 12,
+    backgroundColor: null,
+  };
 
-  shouldComponentUpdate(nextProps, nextState){
+  shouldComponentUpdate(nextProps, nextState) {
       this.forceUpdate();
       return true;
-  },
+  }
 
-  renderTabOption(name, page) {
+  renderTabOption = (name, page) => {
 
-  },
+  };
 
-  renderTab(item, page, isTabActive, onPressHandler) {
+  renderTab = (item, page, isTabActive, onPressHandler) => {
     const { activeTextColor, inactiveTextColor, textStyle,
        activeTextSize, inactiveTextSize, activeIconSize, inactiveIconSize } = this.props;
     const textColor = isTabActive ? activeTextColor : inactiveTextColor;
@@ -74,7 +73,7 @@ const IconTabBar = React.createClass({
        <Text style={{color:textColor, fontSize:textSize}}>{item.title}</Text>
       </View>
     </Button>;
-  },
+  };
 
   render() {
     const containerWidth = this.props.containerWidth;
@@ -93,8 +92,8 @@ const IconTabBar = React.createClass({
         })}
       </View>
     );
-  },
-});
+  }
+}
 
 const styles = StyleSheet.create({
   tab: {
