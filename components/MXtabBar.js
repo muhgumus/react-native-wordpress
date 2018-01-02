@@ -1,5 +1,6 @@
 const React = require('react');
 const ReactNative = require('react-native');
+import PropTypes from 'prop-types';
 const {
   View,
   Animated,
@@ -17,51 +18,51 @@ import Color from "../utils/colors"
 
 const WINDOW_WIDTH = Dimensions.get('window').width;
 
-const MXtabBar = React.createClass({
-  propTypes: {
-    goToPage: React.PropTypes.func,
-    activeTab: React.PropTypes.number,
-    tabs: React.PropTypes.array,
-    backgroundColor: React.PropTypes.string,
-    activeTextColor: React.PropTypes.string,
-    inactiveTextColor: React.PropTypes.string,
-    scrollOffset: React.PropTypes.number,
+class MXtabBar extends React.Component {
+  static propTypes = {
+    goToPage: PropTypes.func,
+    activeTab: PropTypes.number,
+    tabs: PropTypes.array,
+    backgroundColor: PropTypes.string,
+    activeTextColor: PropTypes.string,
+    inactiveTextColor: PropTypes.string,
+    scrollOffset: PropTypes.number,
     style: View.propTypes.style,
     tabStyle: View.propTypes.style,
     tabsContainerStyle: View.propTypes.style,
     textStyle: Text.propTypes.style,
-    renderTab: React.PropTypes.func,
+    renderTab: PropTypes.func,
     underlineStyle: View.propTypes.style,
-  },
+  };
 
-  getDefaultProps() {
-    return {
-      scrollOffset: 52,
-      activeTextColor: Color.BLUE[700],
-      inactiveTextColor: Color.GREY[700],
-      backgroundColor: '#FFFFFF',
-      textSize: 20,
-      style: {},
-      tabStyle: {},
-      tabsContainerStyle: {},
-      underlineStyle: {},
-    };
-  },
+  static defaultProps = {
+    scrollOffset: 52,
+    activeTextColor: Color.BLUE[700],
+    inactiveTextColor: Color.GREY[700],
+    backgroundColor: '#FFFFFF',
+    textSize: 20,
+    style: {},
+    tabStyle: {},
+    tabsContainerStyle: {},
+    underlineStyle: {},
+  };
 
-  getInitialState() {
+  constructor(props) {
+    super(props);
     this._tabsMeasurements = [];
-    return {
+
+    this.state = {
       _leftTabUnderline: new Animated.Value(0),
       _widthTabUnderline: new Animated.Value(0),
       _containerWidth: null,
     };
-  },
+  }
 
   componentDidMount() {
     this.props.scrollValue.addListener(this.updateView);
-  },
+  }
 
-  updateView(offset) {
+  updateView = (offset) => {
     const position = Math.floor(offset.value);
     const pageOffset = offset.value % 1;
     const tabCount = this.props.tabs.length;
@@ -75,16 +76,16 @@ const MXtabBar = React.createClass({
       this.updateTabPanel(position, pageOffset);
       this.updateTabUnderline(position, pageOffset, tabCount);
     }
-  },
+  };
 
-  necessarilyMeasurementsCompleted(position, isLastTab) {
+  necessarilyMeasurementsCompleted = (position, isLastTab) => {
     return this._tabsMeasurements[position] &&
       (isLastTab || this._tabsMeasurements[position + 1]) &&
       this._tabContainerMeasurements &&
       this._containerMeasurements;
-  },
+  };
 
-  updateTabPanel(position, pageOffset) {
+  updateTabPanel = (position, pageOffset) => {
     const containerWidth = this._containerMeasurements.width;
     const tabWidth = this._tabsMeasurements[position].width;
     const nextTabMeasurements = this._tabsMeasurements[position + 1];
@@ -105,9 +106,9 @@ const MXtabBar = React.createClass({
       this._scrollView.scrollTo({x: newScrollX, y: 0, animated: false, });
     }
 
-  },
+  };
 
-  updateTabUnderline(position, pageOffset, tabCount) {
+  updateTabUnderline = (position, pageOffset, tabCount) => {
     const lineLeft = this._tabsMeasurements[position].left;
     const lineRight = this._tabsMeasurements[position].right;
 
@@ -124,9 +125,9 @@ const MXtabBar = React.createClass({
       this.state._leftTabUnderline.setValue(lineLeft);
       this.state._widthTabUnderline.setValue(lineRight - lineLeft);
     }
-  },
+  };
 
-  renderTab(item, page, isTabActive, onPressHandler, onLayoutHandler,) {
+  renderTab = (item, page, isTabActive, onPressHandler, onLayoutHandler) => {
     const { activeTextColor, inactiveTextColor, textStyle, textSize } = this.props;
     const textColor = isTabActive ? activeTextColor : inactiveTextColor;
     const fontWeight = isTabActive ? 'normal' : 'normal';
@@ -150,13 +151,13 @@ const MXtabBar = React.createClass({
       </View>
       </View>
     </Button>;
-  },
+  };
 
-  measureTab(page, event) {
+  measureTab = (page, event) => {
     const { x, width, height, } = event.nativeEvent.layout;
     this._tabsMeasurements[page] = {left: x, right: x + width, width, height, };
     this.updateView({value: this.props.scrollValue._value, });
-  },
+  };
 
   render() {
     const tabUnderlineStyle = {
@@ -198,16 +199,16 @@ const MXtabBar = React.createClass({
         </View>
       </ScrollView>
     </View>;
-  },
+  }
 
   componentWillReceiveProps(nextProps) {
     // If the tabs change, force the width of the tabs container to be recalculated
     if (JSON.stringify(this.props.tabs) !== JSON.stringify(nextProps.tabs) && this.state._containerWidth) {
       this.setState({ _containerWidth: null, });
     }
-  },
+  }
 
-  onTabContainerLayout(e) {
+  onTabContainerLayout = (e) => {
     this._tabContainerMeasurements = e.nativeEvent.layout;
     let width = this._tabContainerMeasurements.width;
     if (width < WINDOW_WIDTH) {
@@ -215,13 +216,13 @@ const MXtabBar = React.createClass({
     }
     this.setState({ _containerWidth: width, });
     this.updateView({value: this.props.scrollValue._value, });
-  },
+  };
 
-  onContainerLayout(e) {
+  onContainerLayout = (e) => {
     this._containerMeasurements = e.nativeEvent.layout;
     this.updateView({value: this.props.scrollValue._value, });
-  },
-});
+  };
+}
 
 module.exports = MXtabBar;
 
