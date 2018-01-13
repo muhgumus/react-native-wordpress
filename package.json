@@ -1,6 +1,6 @@
 {
   "name": "react-native-wordpress",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "description": "Wordpress Native App written React Native",
   "main": "index.js",
   "scripts": {
